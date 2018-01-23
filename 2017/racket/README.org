@@ -3,7 +3,7 @@
 To see solutions for a day's puzzles, run:
 
 #+BEGIN_SRC bash
-$ racket  day01.rkt
+$ racket day01.rkt
 First puzzle: 	1390
 Second puzzle: 	1232
 #+END_SRC
