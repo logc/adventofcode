@@ -1,0 +1,12 @@
+#+TITLE: Racket solutions to 2017 problems
+
+To see solutions for a day's puzzles, run:
+
+#+BEGIN_SRC bash
+$ racket  day01.rkt
+First puzzle: 	1390
+Second puzzle: 	1232
+#+END_SRC
+
+Solutions for me could be different than solutions for you, because of the
+generated problem inputs.
