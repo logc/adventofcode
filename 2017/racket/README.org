@@ -1,6 +1,8 @@
 #+TITLE: Racket solutions to 2017 problems
 
-To see solutions for a day's puzzles, run:
+* General usage
+
+To see solutions for a day's puzzles, run the file with its name:
 
 #+BEGIN_SRC bash
 $ racket day01.rkt
@@ -8,5 +10,31 @@ First puzzle: 	1390
 Second puzzle: 	1232
 #+END_SRC
 
-Solutions for me could be different than solutions for you, because of the
-generated problem inputs.
+Solutions could be different because of the generated problem inputs.
+
+* Notes
+** Structure
+All files hold both implementation and tests as separate ~module~ parts. They
+are intermixed using the ~module+~ form. The ~test~ module holds ~test-case~
+forms, and the ~main~ module holds the puzzle input (sometimes read from an
+external TXT file) and calls to *print* the result of ~solve~ procedures for the
+first and second puzzles.
+
+All procedures to solve the puzzles are created outside these two modules.
+
+#+BEGIN_SRC racket
+#lang racket/base
+
+(module+ test
+  (require rackunit))
+
+(module+ main
+  (printf "First: ~a" (solve-first)))
+
+;; procedures
+
+;; more tests
+
+(module+ main
+  (printf "Second: ~a" (solve-second)))
+#+END_SRC
