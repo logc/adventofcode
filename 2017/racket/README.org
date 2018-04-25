@@ -38,3 +38,9 @@ All procedures to solve the puzzles are created outside these two modules.
 (module+ main
   (printf "Second: ~a" (solve-second)))
 #+END_SRC
+
+** Lessons learned
+- Day 01: Circle list, number->digits
+
+
+- Day 12: Depth-first search, find subgraphs and components of a graph
