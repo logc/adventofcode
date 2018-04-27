@@ -1,9 +1,7 @@
 #lang racket/base
 
-(require (only-in racket/string
-                  string-split)
-         (only-in racket/list
-                  remove-duplicates))
+(require (only-in racket/string string-split)
+         (only-in racket/list remove-duplicates))
 
 (module+ test
   (require rackunit))

@@ -40,7 +40,16 @@ All procedures to solve the puzzles are created outside these two modules.
 #+END_SRC
 
 ** Lessons learned
-- Day 01: Circle list, number->digits
 
-
-- Day 12: Depth-first search, find subgraphs and components of a graph
+- Day 01: circle list, number->digits
+- Day 02: parse lines, words
+- Day 03: manhattan distance, spiral grid
+- Day 04: anagrams
+- Day 05: -
+- Day 06: overwrite vectors
+- Day 07: trees
+- Day 08: parse "machine instructions"
+- Day 09: use a state machine to parse expressions
+- Day 10: hash function, circular buffer
+- Day 11: hexagonal grid
+- Day 12: depth-first search, find subgraphs graph
