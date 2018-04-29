@@ -1,4 +1,9 @@
-#lang racket
+#lang racket/base
+
+(require racket/list)
+(require [only-in racket/string string-split string-trim]
+         [only-in racket/bool false?]
+         [only-in racket/port port->string])
 
 (module+ test
   (require rackunit))
