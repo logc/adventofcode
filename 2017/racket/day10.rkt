@@ -1,5 +1,7 @@
 #lang racket/base
 
+(provide knot-hash)
+
 (require racket/list
          (only-in racket/string string-join)
          (only-in racket/function identity))
@@ -142,9 +144,8 @@
     (cond [(zero? n) remainders]
           [else (convert (quotient n 16) (cons (remainder n 16) remainders))]))
   (define result (map as-hex-digit (convert n '())))
-  (if (< (length result) 2)
-      (cons 0 result)
-      result))
+  (cond [(= (length result) 2) result]
+        [(= (length result) 1) (cons 0 result)]))
 
 (define (as-hex-digit decimal-digit)
   (cond [(<= decimal-digit 9) decimal-digit]
