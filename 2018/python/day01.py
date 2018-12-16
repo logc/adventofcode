@@ -26,4 +26,5 @@ def solve_second():
 if __name__ == "__main__":
     #find_first_repeated([1, -1])
     #find_first_repeated([3, 3, 4, -2, -4])
+    solve_first()
     solve_second()
