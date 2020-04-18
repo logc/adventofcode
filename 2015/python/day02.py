@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
+"""
+Solves day 2 problems from Advent of Code 2015.
+"""
 
 # The elves are running low on wrapping paper, and so they need to submit an
 # order for more. They have a list of the dimensions (length l, width w, and
 # height h) of each present, and only want to order exactly as much as they
 # need.
 
-# Fortunately, every present is a box (a perfect right rectangular prism), which
+# Fortunately, every present is a box (a perfect right rectangular prism),
+# which
 # makes calculating the required wrapping paper for each gift a little easier:
 # find the surface area of the box, which is 2*l*w + 2*w*h + 2*h*l. The elves
 # also need a little extra paper for each present: the area of the smallest
@@ -17,8 +21,8 @@
 #   of wrapping paper plus 6 square feet of slack, for a total of 58 square
 #   feet.
 # - A present with dimensions 1x1x10 requires 2*1 + 2*10 + 2*10 = 42
-#   square feet of wrapping paper plus 1 square foot of slack, for a total of 43
-#   square feet.
+#   square feet of wrapping paper plus 1 square foot of slack, for a total of
+#   43 square feet.
 
 # All numbers in the elves' list are in feet. How many total square feet of
 # wrapping paper should they order?
@@ -28,70 +32,89 @@ def parse(line):
     """
     Return length, width and height as integers.
     """
-    l, w, h = [int(x) for x in line.split("x")]
-    return l, w, h
+    length, width, height = [int(x) for x in line.split("x")]
+    return length, width, height
 
 
-def box_surface_area(l, w, h):
-    return 2*l*w + 2*w*h + 2*h*l
+def box_surface_area(length, width, height):
+    """
+    Returns how big the surface of a box is.
+    """
+    return 2*length*width + 2*width*height + 2*height*length
 
 
-def slack(l, w, h):
-    return min(l*w, w*h, h*l)
+def slack(length, width, height):
+    """
+    Returns the slack area of paper needed for a box.
+    """
+    return min(length*width, width*height, height*length)
 
 
 def paper_of_present(dimensions):
-    l, w, h = parse(dimensions)
-    return box_surface_area(l, w, h) + slack(l, w, h)
+    """
+    Returns the total wrapping paper needed for a box.
+    """
+    length, width, height = parse(dimensions)
+    return (box_surface_area(length, width, height)
+            + slack(length, width, height))
 
 # The elves are also running low on ribbon. Ribbon is all the same width, so
 # they only have to worry about the length they need to order, which they would
 # again like to be exact.
 
 # The ribbon required to wrap a present is the shortest distance around its
-# sides, or the smallest perimeter of any one face. Each present also requires a
-# bow made out of ribbon as well; the feet of ribbon required for the perfect
+# sides, or the smallest perimeter of any one face. Each present also requires
+# a bow made out of ribbon as well; the feet of ribbon required for the perfect
 # bow is equal to the cubic feet of volume of the present. Don't ask how they
 # tie the bow, though; they'll never tell.
 
 # For example:
-# - A present with dimensions 2x3x4 requires 2+2+3+3 = 10 feet of ribbon to wrap
-#   the present plus 2*3*4 = 24 feet of ribbon for the bow, for a total of 34
-#   feet.
-# - A present with dimensions 1x1x10 requires 1+1+1+1 = 4 feet of ribbon to wrap
-#   the present plus 1*1*10 = 10 feet of ribbon for the bow, for a total of 14
-#   feet.
+# - A present with dimensions 2x3x4 requires 2+2+3+3 = 10 feet of ribbon to
+# wrap the present plus 2*3*4 = 24 feet of ribbon for the bow, for a total of
+# 34 feet.
+
+# - A present with dimensions 1x1x10 requires 1+1+1+1 = 4 feet of ribbon to
+#   wrap the present plus 1*1*10 = 10 feet of ribbon for the bow, for a total
+#   of 14 feet.
 
 # How many total feet of ribbon should they order?
 
 
-def ribbon_wrap(l, w, h):
+def ribbon_wrap(length, width, height):
+    """
+    Returns the length of ribbon needed for a box.
+    """
     return min(
-        2 * (l + w),
-        2 * (w + h),
-        2 * (l + h)
+        2 * (length + width),
+        2 * (width + height),
+        2 * (length + height)
     )
 
 
-def ribbon_bow(l, w, h):
-    return l*w*h
+def ribbon_bow(length, width, height):
+    """
+    Returns the length of ribbon needed to tie a bow for a box.
+    """
+    return length * width * height
 
 
 def ribbon_of_present(dimensions):
-    l, w, h = parse(dimensions)
-    return ribbon_wrap(l, w, h) + ribbon_bow(l, w, h)
+    """
+    Returns the total ribbon length needed for a present.
+    """
+    length, width, height = parse(dimensions)
+    return (ribbon_wrap(length, width, height)
+            + ribbon_bow(length, width, height))
 
 
 if __name__ == "__main__":
     with open("day02.txt") as infile:
         CONTENTS = infile.readlines()
 
-    paper = 0
-    ribbon = 0
-    for line in CONTENTS:
-        paper += paper_of_present(line)
-        ribbon += ribbon_of_present(line)
-    print(paper)
-    print(ribbon)
-
-    ribbon = 0
+    PAPER = 0
+    RIBBON = 0
+    for content in CONTENTS:
+        PAPER += paper_of_present(content)
+        RIBBON += ribbon_of_present(content)
+    print(PAPER)
+    print(RIBBON)
