@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+"Solves puzzles from day 6, 2015"
 
 # --- Day 6: Probably a Fire Hazard ---
 
@@ -34,29 +35,35 @@ import numpy as np
 
 
 class Lights:
+    "Represents a grid of lights."
 
     def __init__(self, size):
         self.grid = np.full((size, size), False)
 
-    def turn_on(self, corner_pair_1, corner_pair_2):
-        low_x, low_y = corner_pair_1
-        high_x, high_y = corner_pair_2
-        self.grid[low_x:(high_x + 1), low_y:(high_y + 1)] = True
+    def turn_on(self, lower_corner, upper_corner):
+        "Turns on lights from lower left corner to upper right corner."
+        lower_x, lower_y = lower_corner
+        upper_x, upper_y = upper_corner
+        self.grid[lower_x:(upper_x + 1), lower_y:(upper_y + 1)] = True
 
-
-    def turn_off(self, low_corner, high_corner):
-        low_x, low_y = low_corner
-        high_x, high_y = high_corner
-        self.grid[low_x:(high_x + 1), low_y:(high_y + 1)] = False
+    def turn_off(self, lower_corner, upper_corner):
+        "Turns off lights from lower left corner to upper right corner."
+        lower_x, lower_y = lower_corner
+        upper_x, upper_y = upper_corner
+        self.grid[lower_x:(upper_x + 1), lower_y:(upper_y + 1)] = False
 
     def toggle(self, low_corner, high_corner):
+        "Toggles lights on/off."
         low_x, low_y = low_corner
         high_x, high_y = high_corner
+        # pylint: disable=invalid-name
         for x in range(low_x, high_x + 1):
             for y in range(low_y, high_y + 1):
                 self.grid[x, y] = (not self.grid[x, y])
+        # pylint: enable=invalid-name
 
     def process(self, instruction):
+        "Process a single instruction by tuning on/off or toggling lights."
         code, lower_corner, upper_corner = instruction
         if code not in ["toggle", "turn on", "turn off"]:
             raise RuntimeError("unknown instruction: {}".format(instruction))
@@ -68,10 +75,12 @@ class Lights:
             self.turn_off(lower_corner, upper_corner)
 
     def count_on(self):
+        "Returns how many lights are turned on."
         return np.count_nonzero(self.grid)
 
 
 def parse(line):
+    "Parse a line of input into an instruction for the grid."
     tokens = line.rsplit(" ", 3)
     instruction, lower, _, upper = tokens
     lower_x, lower_y = [int(coord) for coord in lower.split(",")]
@@ -107,29 +116,36 @@ def parse(line):
 # - toggle 0,0 through 999,999 would increase the total brightness by 2000000.
 
 class BrightLights:
+    "Represents a grid of lights that have a discrete brightness."
 
     def __init__(self, size):
         self.grid = np.full((size, size), 0)
 
     def turn_on(self, lower_corner, upper_corner):
+        "Increases brightness of lights from lower corner to upper corner."
         lower_x, lower_y = lower_corner
         upper_x, upper_y = upper_corner
         self.grid[lower_x:(upper_x + 1), lower_y:(upper_y + 1)] += 1
 
     def turn_off(self, lower_corner, upper_corner):
+        "Decreases brightness of lights from lower corner to upper corner."
         lower_x, lower_y = lower_corner
         upper_x, upper_y = upper_corner
+        # pylint: disable=invalid-name
         for x in range(lower_x, upper_x + 1):
             for y in range(lower_y, upper_y + 1):
                 current = self.grid[x, y]
                 self.grid[x, y] = max(current - 1, 0)
+        # pylint: enable=invalid-name
 
     def toggle(self, lower_corner, upper_corner):
+        "Increases brightness of lights by 2 steps."
         lower_x, lower_y = lower_corner
         upper_x, upper_y = upper_corner
         self.grid[lower_x:(upper_x + 1), lower_y:(upper_y + 1)] += 2
 
     def process(self, instruction):
+        "Process a single instruction by increasing/decreasing brightness."
         code, lower_corner, upper_corner = instruction
         if code not in ["toggle", "turn on", "turn off"]:
             raise RuntimeError("unknown instruction: {}".format(instruction))
@@ -141,6 +157,7 @@ class BrightLights:
             self.turn_off(lower_corner, upper_corner)
 
     def count_brightness(self):
+        "Returns the total brightness of the grid."
         return np.sum(self.grid)
 
 
@@ -150,8 +167,8 @@ if __name__ == "__main__":
 
     GRID = Lights(1000)
     BGRID = BrightLights(1000)
-    for line in MY_INPUT:
-        INSTRUCTION = parse(line)
+    for input_line in MY_INPUT:
+        INSTRUCTION = parse(input_line)
         GRID.process(INSTRUCTION)
         BGRID.process(INSTRUCTION)
     print(GRID.count_on())
