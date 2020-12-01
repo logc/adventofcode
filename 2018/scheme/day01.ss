@@ -18,5 +18,5 @@
             (begin (hashtable-set! seen freq 'seen)
                    (search (add1 pos) freq seen)))))))
 
-(printf "First puzzle answer: ~a~n" (apply + puzzle-input))
-(printf "Second puzzle answer: ~a~n" (find-repeated-freq puzzle-input))
+(format #t "First puzzle answer: ~a~%" (apply + puzzle-input))
+(format #t "Second puzzle answer: ~a~%" (find-repeated-freq puzzle-input))

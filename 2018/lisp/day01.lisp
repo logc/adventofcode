@@ -14,5 +14,8 @@
           (T (setf (gethash freq seen) 'seen)
              (find-repeated-freq input seen (+ pos 1) freq)))))
 
-(format t "First puzzle answer: ~A~%" (apply #'+ *puzzle-input*))
-(format t "Second puzzle answer: ~A~%" (find-repeated-freq *puzzle-input* (make-hash-table) 0 0))
+(with-open-file (puzzle-input "day01.txt")
+  (let ((lines (loop for line = (read-line puzzle-input nil) while line collect line)))
+    (let ((numbers (mapcar #'parse-integer lines)))
+      (format t "First puzzle answer: ~A~%" (apply #'+ numbers))
+      (format t "Second puzzle answer: ~A~%" (find-repeated-freq numbers (make-hash-table) 0 0)))))
