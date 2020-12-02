@@ -1,0 +1,45 @@
+(import :std/format :std/misc/ports :std/srfi/13 :std/iter)
+(export main)
+
+(defstruct policy (lower upper letter))
+
+(define (parse-policy policy)
+  (define tokens (string-split policy #\space))
+  (with ([limits letter] tokens)
+    (with ([lower upper] (map string->number (string-split limits #\-)))
+      (let ((letter-as-char (car (string->list letter))))
+        (make-policy lower upper letter-as-char)))))
+  
+(define (parse line)
+  (define tokens (map string-trim (string-split line #\:)))
+  (with ([policy . password] tokens)
+    (let ((p (parse-policy policy)))
+      (cons p password))))
+
+(define (valid? password policy)
+  (let ((letter-count (string-count password (policy-letter policy)))
+        (low (policy-lower policy))
+        (high (policy-upper policy)))
+    (and (<= low letter-count)
+         (<= letter-count high))))
+
+(define (solve-one parsed)
+  (define valids (map (lambda (pp) (valid? (cadr pp) (car pp))) parsed))
+  (for/fold (acc 0) (v valids when v) (1+ acc)))
+
+(define (valid-new? password pol)
+  (with ((policy lower upper letter) pol)
+    (let ((lower-char (string-ref password (1- lower)))
+          (upper-char (string-ref password (1- upper))))
+      (not (eq? (char=? lower-char letter)
+                (char=? upper-char letter))))))
+
+(define (solve-two parsed)
+  (define valids (map (lambda (pp) (valid-new? (cadr pp) (car pp))) parsed))
+  (for/fold (acc 0) (v valids when v) (1+ acc)))
+
+(define (main)
+  (define puzzle-input (read-file-lines "day02.txt"))
+  (define parsed (map parse puzzle-input))
+  (printf "Puzzle #1: ~a~n" (solve-one parsed))
+  (printf "Puzzle #2: ~a~n" (solve-two parsed)))
