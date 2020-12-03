@@ -1,2 +1,3 @@
 *.dblite
 .DS_Store
+venv/
