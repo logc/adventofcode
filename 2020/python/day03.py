@@ -1,6 +1,3 @@
-import numpy as np
-
-
 def parse(line):
     grid_line = []
     for char in line:
@@ -15,11 +12,12 @@ def traverse(grid, slope):
     slope_x, slope_y = slope
     x, y = 0, 0
     trees = 0
-    while x < grid.shape[0] - 1:
+    width = len(grid[0])
+    while x < len(grid) - 1:
         x += slope_x
         y += slope_y
-        y = y % grid.shape[1]
-        trees += grid[x, y]
+        y = y % width
+        trees += grid[x][y]
     return trees
 
 
@@ -44,7 +42,6 @@ def solve_two(grid):
 
 if __name__ == '__main__':
     with open("day03.txt", "r") as infile:
-        lines = [parse(line) for line in infile]
-    grid = np.array(lines)
+        grid = [parse(line) for line in infile]
     print("Puzzle #1: {}".format(solve_one(grid)))
     print("Puzzle #2: {}".format(solve_two(grid)))
