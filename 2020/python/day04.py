@@ -1,5 +1,4 @@
 import string
-from itertools import groupby
 
 
 VALID_FIELDS = [
