@@ -2,6 +2,8 @@
         :std/misc/ports
         :std/test)
 
+(export main)
+
 (def puzzle-input (read-file-string "day01.in"))
 
 ;; Santa is trying to deliver presents in a large apartment building, but he
@@ -56,3 +58,7 @@
        (+ index 1)))))
 
 (check-eq? (solve-two puzzle-input) 1771)
+
+(def (main)
+  (displayln (solve-one puzzle-input))
+  (displayln (solve-two puzzle-input)))
